@@ -1,7 +1,9 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
+
 
 function Searched() {
 
@@ -19,12 +21,19 @@ function Searched() {
   }, [params.search]);
 
   return(
-      <Grid>
+      <Grid
+      animate={{ opacity: 1 }}
+      initial={{ opacity: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}  
+      >
           {searchedRecipes.map((item) => {
               return (
                   <Card key={item.id}>
+                    <Link to={'/recipe/' + item.id}>
                       <img src={item.image} alt="" />
                       <h4>{item.title}</h4>
+                    </Link>
                   </Card>
               );
           })}
@@ -32,7 +41,7 @@ function Searched() {
   );
 }
 
-const Grid = styled.div`
+const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
   grid-gap: 3rem;
